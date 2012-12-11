@@ -1,24 +1,24 @@
 %define upstream_name    MooseX-Clone
 %define upstream_version 0.05
 
-Name:       perl-%{upstream_name}
-Version:    %perl_convert_version %{upstream_version}
-Release:    %mkrel 2
+Name:		perl-%{upstream_name}
+Version:	%perl_convert_version %{upstream_version}
+Release:	3
 
-Summary:    The L<Moose::Meta::Attribute>
-License:    GPL+ or Artistic
-Group:      Development/Perl
-Url:        http://search.cpan.org/dist/%{upstream_name}
-Source0:    http://www.cpan.org/modules/by-module/MooseX/%{upstream_name}-%{upstream_version}.tar.gz
+Summary:	The L<Moose::Meta::Attribute>
+License:	GPL+ or Artistic
+Group:		Development/Perl
+Url:		http://search.cpan.org/dist/%{upstream_name}
+Source0:	http://www.cpan.org/modules/by-module/MooseX/%{upstream_name}-%{upstream_version}.tar.gz
 
-BuildRequires: perl(Data::Visitor)
-BuildRequires: perl(Hash::Util::FieldHash::Compat)
-BuildRequires: perl(Moose)
-BuildRequires: perl(Test::use::ok)
-BuildRequires: perl(namespace::clean)
-Provides: perl(MooseX::Clone::Meta::Attribute::Trait::StorableClone)
-BuildArch: noarch
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}
+BuildRequires:	perl-devel
+BuildRequires:	perl(Data::Visitor)
+BuildRequires:	perl(Hash::Util::FieldHash::Compat)
+BuildRequires:	perl(Moose)
+BuildRequires:	perl(Test::use::ok)
+BuildRequires:	perl(namespace::clean)
+Provides:	perl(MooseX::Clone::Meta::Attribute::Trait::StorableClone)
+BuildArch:	noarch
 
 %description
 Out of the box the Moose manpage only provides very barebones cloning
@@ -34,24 +34,29 @@ attribute value's own 'clone' method.
 %setup -q -n %{upstream_name}-%{upstream_version}
 
 %build
-%{__perl} Makefile.PL INSTALLDIRS=vendor
-
-%{make}
+perl Makefile.PL INSTALLDIRS=vendor
+%make
 
 %check
-%{make} test
+%make test
 
 %install
-rm -rf %buildroot
 %makeinstall_std
 
-%clean
-rm -rf %buildroot
-
 %files
-%defattr(-,root,root)
 %doc Changes
 %{_mandir}/man3/*
-%perl_vendorlib/*
+%{perl_vendorlib}/*
+
+%changelog
+* Mon Apr 18 2011 Funda Wang <fwang@mandriva.org> 0.50.0-2mdv2011.0
++ Revision: 655602
+- rebuild for updated spec-helper
+
+* Wed Jul 28 2010 Shlomi Fish <shlomif@mandriva.org> 0.50.0-1mdv2011.0
++ Revision: 562746
+- import perl-MooseX-Clone
 
 
+* Fri Feb 05 2010 cpan2dist 0.05-1mdv
+- initial mdv release, generated with cpan2dist
